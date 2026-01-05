@@ -5,7 +5,7 @@ import './App.css';
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Chakra Bingo — Clues on Board + Draw CLUE deck
+// Chakra — Clues on Board + Draw CLUE deck
 //
 // User requirement:
 // ✅ Make sure ALL the clues are draw-able from the deck
@@ -193,7 +193,7 @@ function getLines() {
   return lines;
 }
 
-function hasBingo(selectedSet) {
+function hasChakra(selectedSet) {
   const lines = getLines();
   return lines.some((line) => line.every((i) => selectedSet.has(i)));
 }
@@ -324,7 +324,7 @@ export default function App() {
   const drawnChakra = useMemo(() => (lastDraw ? byId(lastDraw.chakraId) : null), [lastDraw]);
 
   useEffect(() => {
-    const win = hasBingo(selected);
+    const win = hasChakra(selected);
     if (win && !isWin) {
       setIsWin(true);
       setConfettiKey((k) => k + 1);
@@ -485,7 +485,7 @@ export default function App() {
                     exit={{ opacity: 0, y: -6 }}
                     className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-extrabold text-emerald-100 ring-1 ring-emerald-400/30"
                   >
-                    BINGO! 🎉
+                    CHAKRA! 🎉
                   </motion.div>
                 ) : (
                   <motion.div
@@ -518,7 +518,7 @@ export default function App() {
 
             <div className="mt-3 rounded-2xl bg-black/20 p-3 ring-1 ring-white/10">
               <div className="text-xs text-slate-300">
-                Tip: With Caller Lock ON, this behaves like true bingo: draw → find exact match → mark.
+                Tip: With Caller Lock ON, this behaves like true chakra: draw → find exact match → mark.
               </div>
             </div>
           </section>
