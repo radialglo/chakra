@@ -1138,6 +1138,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.md\:grid-cols-\[360px_1fr\] {
+  @media (width >= 48rem) {
+    grid-template-columns: 360px 1fr;
+  }
+}
 @property --tw-rotate-x {
   syntax: "*";
   inherits: false;
