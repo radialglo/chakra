@@ -595,7 +595,7 @@ function ClueSquare({ cell, marked, onClick, reducedMotion, showAnswer, lastDraw
   const disabledByCaller = callerLock && !isFree && lastDraw && cell.token !== lastDraw.token;
   const disabled = disabledNoDrawYet || disabledByCaller;
 
-  const wash = isFree ? "rgba(255,255,255,.18)" : chakra?.color;
+  const wash = isFree ? "rgba(255,255,255,.18)" : (marked ? chakra?.color : "rgba(255,255,255,.18)");
 
   return (
     <button
