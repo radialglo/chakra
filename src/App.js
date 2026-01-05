@@ -628,7 +628,7 @@ function ClueSquare({ cell, marked, onClick, reducedMotion, showAnswer, lastDraw
           </>
         ) : (
           <>
-            <div className="line-clamp-4 text-[12px] font-semibold leading-snug text-slate-100">
+            <div className="line-clamp-5 break-words text-[12px] font-semibold leading-snug text-slate-100">
               {cell.clue}
             </div>
 
@@ -638,7 +638,7 @@ function ClueSquare({ cell, marked, onClick, reducedMotion, showAnswer, lastDraw
                 <span className="truncate">{chakra?.name} • {chakra?.sanskrit}</span>
               </div>
             ) : (
-              <div className="mt-2 text-[10px] font-semibold text-slate-200/80">
+              <div className="mt-2 hidden text-[10px] font-semibold text-slate-200/80 md:block">
                 {callerLock ? (lastDraw ? "(Mark if it matches the draw)" : "(Draw a clue first)") : "(Click to mark)"}
               </div>
             )}

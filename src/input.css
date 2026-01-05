@@ -18,3 +18,8 @@ code {
         grid-template-columns: 360px 1fr;
     }
 }
+
+
+.break-words {
+  word-wrap: break-word;
+}
