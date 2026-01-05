@@ -317,7 +317,7 @@ export default function App() {
   const [lockFree, setLockFree] = useState(true);
 
   // Caller controls
-  const [callerLock, setCallerLock] = useState(true);
+  const [callerLock, setCallerLock] = useState(false);
   const [lastDraw, setLastDraw] = useState(null); // { token, clue, chakraId }
   const [flipCard, setFlipCard] = useState(false);
 
@@ -383,7 +383,7 @@ export default function App() {
       <div className="mx-auto w-full max-w-6xl px-5 py-8">
         <header className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
-            <h1 className="text-xl font-extrabold tracking-tight md:text-2xl">Chakra Bingo — Clue Caller</h1>
+            <h1 className="text-xl font-extrabold tracking-tight md:text-2xl">Chakra</h1>
             <p className="mt-1 max-w-2xl text-sm text-slate-300">
               Draw a clue card, then click the matching clue on the board to mark it. 5 in a row wins.
             </p>
