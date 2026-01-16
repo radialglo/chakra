@@ -321,6 +321,9 @@ export default function App() {
   const [lastDraw, setLastDraw] = useState(null); // { token, clue, chakraId }
   const [flipCard, setFlipCard] = useState(false);
 
+  // Review modal
+  const [reviewOpen, setReviewOpen] = useState(false);
+
   const drawnChakra = useMemo(() => (lastDraw ? byId(lastDraw.chakraId) : null), [lastDraw]);
 
   useEffect(() => {
@@ -395,6 +398,12 @@ export default function App() {
               className="rounded-2xl bg-sky-500/20 px-4 py-2 text-sm font-semibold ring-1 ring-sky-400/30 hover:bg-sky-500/30"
             >
               Draw Clue
+            </button>
+            <button
+              onClick={() => setReviewOpen(true)}
+              className="rounded-2xl bg-white/10 px-4 py-2 text-sm font-semibold ring-1 ring-white/15 hover:bg-white/15"
+            >
+              Review Chakras
             </button>
             <button
               onClick={newGame}
@@ -525,6 +534,7 @@ export default function App() {
         </main>
       </div>
 
+      {reviewOpen ? <ReviewModal onClose={() => setReviewOpen(false)} /> : null}
       {isWin ? <ConfettiBurst fireKey={confettiKey} /> : null}
     </div>
   );
@@ -663,6 +673,142 @@ function ClueSquare({ cell, marked, onClick, reducedMotion, showAnswer, lastDraw
         ) : null}
       </AnimatePresence>
     </button>
+  );
+}
+
+function ReviewModal({ onClose }) {
+  return (
+    <div className="fixed inset-0 z-40">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="absolute inset-0 flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.98 }}
+          className="w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-950 ring-1 ring-white/15"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Chakra review"
+        >
+          <div className="flex items-center justify-between border-b border-white/10 p-4">
+            <div>
+              <div className="text-base font-extrabold text-slate-100">Chakra Review</div>
+              <div className="mt-1 text-sm text-slate-300">All 7 chakras + a simple body map.</div>
+            </div>
+            <button
+              onClick={onClose}
+              className="rounded-2xl bg-white/10 px-3 py-2 text-xs font-semibold ring-1 ring-white/15 hover:bg-white/15"
+            >
+              Close
+            </button>
+          </div>
+
+          <div className="grid gap-4 p-4 md:grid-cols-3">
+            <div className="rounded-3xl bg-white/5 p-3 ring-1 ring-white/10 md:col-span-2 flex flex-col">
+              <div className="text-sm font-extrabold text-slate-100">Chakra list</div>
+              <div className="mt-3 grid gap-2 overflow-y-auto pr-2" style={{ maxHeight: "60vh" }}>
+                {CHAKRAS.map((c, idx) => (
+                  <div key={c.id} className="flex gap-3 rounded-2xl bg-black/20 p-3 ring-1 ring-white/10">
+                    <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10">
+                      <span className="text-xs font-extrabold text-slate-100">{idx + 1}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full" style={{ background: c.color }} />
+                        <div className="text-xs font-extrabold text-slate-100">{c.name}</div>
+                      </div>
+                      <div className="mt-0.5 text-sm font-semibold text-slate-200/90">{c.sanskrit}</div>
+                      <div className="mt-1 text-sm text-slate-300">{c.theme}</div>
+                      <div className="mt-1 text-sm text-slate-400">
+                        {c.id === "root" && "Located at the base of the spine; supports safety and survival. The English name ‘Root’ points to foundation and grounding, while ‘Mulādhāra’ means root support. Associated element: Earth. Activate through grounding practices like slow standing poses, steady breathing, and feeling the feet connect to the floor."}
+                        {c.id === "sacral" && "Located in the lower belly near the sacrum; relates to pleasure and creativity. ‘Sacral’ refers to the sacrum and life force, while ‘Svādhiṣṭhāna’ means the dwelling place of the self. Associated element: Water. Activate through fluid movement, hip openers, breath awareness, and allowing emotion to flow."}
+                        {c.id === "solar" && "Located in the upper abdomen at the solar plexus nerve center; where energy becomes action. ‘Solar Plexus’ refers to a sun-like nerve network, while ‘Maṇipūra’ means city of jewels. Associated element: Fire. Activate through core engagement, strong postures, and confident, steady breath."}
+                        {c.id === "heart" && "Located at the center of the chest; bridges body and mind through connection. ‘Heart’ reflects emotional balance, while ‘Anāhata’ means unstruck. Associated element: Air. Activate through chest opening, conscious breathing, and cultivating compassion."}
+                        {c.id === "throat" && "Located at the throat; governs communication and truth. The English name reflects physical location, while ‘Viśuddha’ means especially pure. Associated element: Ether (Space). Activate through chanting, humming, conscious speech, and attentive listening."}
+                        {c.id === "third" && "Located between the eyebrows; associated with perception and insight. ‘Third Eye’ describes inner seeing, while ‘Ājñā’ means command or perception. Often linked beyond the elements. Activate through meditation, stillness, and focused awareness."}
+                        {c.id === "crown" && "Located at the top of the head; associated with meaning and unity. ‘Crown’ reflects highest awareness, while ‘Sahasrāra’ means thousand-petaled. Beyond form and element. Activate through silence, surrender, and contemplative practice."}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-3xl bg-white/5 p-3 ring-1 ring-white/10">
+              <div className="flex items-center justify-between">
+                <div className="text-sm font-extrabold text-slate-100">Chakras on the body</div>
+                
+              </div>
+              <div className="mt-3">
+                <ChakraBodyDiagram />
+              </div>
+              <div className="mt-3 text-sm text-slate-300">
+                Memory hook: <span className="font-semibold text-slate-100">Safe → Feel → Act → Love → Speak → See → Be</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function ChakraBodyDiagram() {
+  // Simple SVG silhouette + chakra points positioned along midline.
+  const points = [
+    { id: "crown", y: 18, label: "Crown" },
+    { id: "third", y: 28, label: "Third Eye" },
+    { id: "throat", y: 40, label: "Throat" },
+    { id: "heart", y: 54, label: "Heart" },
+    { id: "solar", y: 66, label: "Solar" },
+    { id: "sacral", y: 78, label: "Sacral" },
+    { id: "root", y: 90, label: "Root" },
+  ];
+
+  return (
+    <div className="relative mx-auto max-w-sm">
+      <svg viewBox="0 0 100 140" className="w-full overflow-visible">
+        {/* silhouette */}
+        <path
+          d="M50 10c6 0 11 5 11 11s-5 11-11 11-11-5-11-11 5-11 11-11Zm0 26c14 0 22 9 22 20v16c0 10 6 18 10 24 4 6 6 12 6 18 0 9-7 16-16 16H28c-9 0-16-7-16-16 0-6 2-12 6-18 4-6 10-14 10-24V56c0-11 8-20 22-20Z"
+          fill="rgba(255,255,255,0.06)"
+          stroke="rgba(255,255,255,0.14)"
+          strokeWidth="1"
+        />
+
+        {/* center line */}
+        <line x1="50" y1="22" x2="50" y2="126" stroke="rgba(255,255,255,0.16)" strokeDasharray="3 3" />
+
+        {/* chakra points */}
+        {points.map((p) => {
+          const c = byId(p.id);
+          return (
+            <g key={p.id}>
+              <circle cx="50" cy={(p.y / 100) * 120 + 8} r="5.2" fill={c?.color} opacity="0.95" />
+              <circle cx="50" cy={(p.y / 100) * 120 + 8} r="8.8" fill={c?.color} opacity="0.18" />
+              <text
+                x="62"
+                y={(p.y / 100) * 120 + 12}
+                fontSize="6"
+                fill="rgba(255,255,255,0.85)"
+                style={{ fontWeight: 700 }}
+              >
+                {p.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        {CHAKRAS.map((c) => (
+          <div key={c.id} className="flex items-center gap-2 rounded-2xl bg-black/20 px-2 py-1 ring-1 ring-white/10">
+            <span className="h-2.5 w-2.5 rounded-full" style={{ background: c.color }} />
+            <span className="text-[11px] font-semibold text-slate-200">{c.name.replace(" Chakra", "")}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
