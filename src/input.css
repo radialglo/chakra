@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,21 +13,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-.md\:grid-cols-\[360px_1fr\] {
-    @media (width >= 48rem) {
-        grid-template-columns: 360px 1fr;
-    }
-}
-
-.md\:grid-cols-3 {
-  @media (width >= 48rem) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-
-.break-words {
-  word-wrap: break-word;
 }

@@ -611,6 +611,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .mt-0 {
+    margin-top: calc(var(--spacing) * 0);
+  }
   .mt-0\.5 {
     margin-top: calc(var(--spacing) * 0.5);
   }
@@ -819,6 +822,9 @@
   .border-b {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
+  }
+  .border-white {
+    border-color: var(--color-white);
   }
   .border-white\/10 {
     border-color: color-mix(in srgb, #fff 10%, transparent);
@@ -1225,19 +1231,6 @@ body {
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-.md\:grid-cols-\[360px_1fr\] {
-  @media (width >= 48rem) {
-    grid-template-columns: 360px 1fr;
-  }
-}
-.md\:grid-cols-3 {
-  @media (width >= 48rem) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-.break-words {
-  word-wrap: break-word;
 }
 @property --tw-rotate-x {
   syntax: "*";
