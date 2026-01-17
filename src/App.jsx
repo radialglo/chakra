@@ -678,19 +678,20 @@ function ClueSquare({ cell, marked, onClick, reducedMotion, showAnswer, lastDraw
 
 function ReviewModal({ onClose }) {
   return (
-    <div className="fixed inset-0 z-40">
+    <div className="fixed inset-0 z-40 overflow-y-auto">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="absolute inset-0 flex items-center justify-center p-4">
+      <div className="absolute inset-0 flex items-start md:items-center justify-center p-2 md:p-4 min-h-full">
         <motion.div
           initial={{ opacity: 0, y: 10, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 10, scale: 0.98 }}
-          className="w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-950 ring-1 ring-white/15"
+          className="w-full max-w-4xl max-h-[calc(100vh-1rem)] md:max-h-[calc(100vh-2rem)] my-4 md:my-0 overflow-hidden rounded-3xl bg-slate-950 ring-1 ring-white/15 flex flex-col"
           role="dialog"
           aria-modal="true"
           aria-label="Chakra review"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between border-b border-white/10 p-4">
+          <div className="flex items-center justify-between border-b border-white/10 p-4 flex-shrink-0">
             <div>
               <div className="text-base font-extrabold text-slate-100">Chakra Review</div>
               <div className="mt-1 text-sm text-slate-300">All 7 chakras + a simple body map.</div>
@@ -703,10 +704,10 @@ function ReviewModal({ onClose }) {
             </button>
           </div>
 
-          <div className="grid gap-4 p-4 md:grid-cols-3">
+          <div className="grid gap-4 p-4 md:grid-cols-3 overflow-y-auto md:overflow-y-visible flex-1">
             <div className="rounded-3xl bg-white/5 p-3 ring-1 ring-white/10 md:col-span-2 flex flex-col">
-              <div className="text-sm font-extrabold text-slate-100">Chakra list</div>
-              <div className="mt-3 grid gap-2 overflow-y-auto pr-2" style={{ maxHeight: "60vh" }}>
+              <div className="text-sm font-extrabold text-slate-100 flex-shrink-0">Chakra list</div>
+              <div className="mt-3 grid gap-2 overflow-y-auto pr-2 md:max-h-[calc(100vh-300px)] flex-1 min-h-0">
                 {CHAKRAS.map((c, idx) => (
                   <div key={c.id} className="flex gap-3 rounded-2xl bg-black/20 p-3 ring-1 ring-white/10">
                     <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10">
@@ -739,7 +740,7 @@ function ReviewModal({ onClose }) {
                 <div className="text-sm font-extrabold text-slate-100">Chakras on the body</div>
                 
               </div>
-              <div className="mt-3">
+              <div className="mt-3 flex">
                 <ChakraBodyDiagram />
               </div>
               <div className="mt-3 text-sm text-slate-300">
